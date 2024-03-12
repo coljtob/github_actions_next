@@ -37,7 +37,74 @@ jobs:
         id: qa-plan
         run: |
           terraform plan -input=false -no-color -out=tfplan
-          terraform show -no-color tfplan > plan.txt    
+          # save for later use
+          terraform show -no-color tfplan > qa-plan.txt    
+
+  stage-plan:
+    name: Terraform Stage Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Terraform Init
+        id: stage-init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: stage-validate
+        run: |
+          terraform validate
+          if [ $? -ne 0 ];
+          then
+            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Terraform Plan
+        continue-on-error: true
+        id: stage-plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          # save for later use
+          terraform show -no-color tfplan > stage-plan.txt    
+
+  prod-plan:
+    name: Terraform Prod Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Terraform Init
+        id: prod-init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: prod-validate
+        run: |
+          terraform validate
+          if [ $? -ne 0 ];
+          then
+            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Terraform Plan
+        continue-on-error: true
+        id: prod-plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          # save for later use
+          terraform show -no-color tfplan > prod-plan.txt    
 
   merge-main-to-qa:
     runs-on: ubuntu-latest
