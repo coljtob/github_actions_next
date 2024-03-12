@@ -32,7 +32,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git pull origin master --allow-unrelated-histories
+          git pull origin main --allow-unrelated-histories
           git merge -s ort main --no-edit --allow-unrelated-histories
           git push origin $TARGET_BRANCH
 
@@ -75,7 +75,7 @@ jobs:
           git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git pull origin master --allow-unrelated-histories
+          git pull origin main --allow-unrelated-histories
           git merge -s ort main --no-edit --allow-unrelated-histories
           git push origin $TARGET_BRANCH
 
@@ -118,7 +118,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git pull origin master --allow-unrelated-histories
+          git pull origin main --allow-unrelated-histories
           git merge -s ort main --no-edit --allow-unrelated-histories
           git push origin $TARGET_BRANCH
 
