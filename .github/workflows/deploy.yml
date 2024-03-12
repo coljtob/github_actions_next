@@ -33,7 +33,7 @@ jobs:
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
           # git merge -s ort -X theirs main --no-edit --allow-unrelated-histories --verbose
-          git merge -s ort -X theirs main --no-edit --verbose
+          git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
 
   run_int_test_qa:
