@@ -44,6 +44,17 @@ jobs:
         id: init
         run: terraform init
 
+      - name: Terraform Validate
+        id: validate
+        run: |
+          terraform validate
+          if [ $? -ne 0 ];
+          then
+            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
+          fi
+
   run_int_test_qa:
     runs-on: ubuntu-latest
     environment: QA
