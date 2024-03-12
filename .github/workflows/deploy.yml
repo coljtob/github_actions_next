@@ -135,9 +135,6 @@ jobs:
           TARGET_BRANCH=QA
         
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
-          
-          git config --global user.email "ctobin@adobe.com"
-          git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
@@ -186,9 +183,6 @@ jobs:
           TARGET_BRANCH=STAGE
           
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
-          
-          git config --global user.email "ctobin@adobe.com"
-          git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
@@ -236,9 +230,6 @@ jobs:
           TARGET_BRANCH=PROD
           
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
-          
-          git config --global user.email "ctobin@adobe.com"
-          git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
