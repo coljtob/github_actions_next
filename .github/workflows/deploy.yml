@@ -154,7 +154,7 @@ jobs:
   merge-main-to-stage:
     runs-on: ubuntu-latest
     environment: STAGE
-    needs: [run_int_test_qa]
+    needs: [run_int_test_qa, stage-plan]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
@@ -197,7 +197,7 @@ jobs:
   merge-stage-to-prod:
     runs-on: ubuntu-latest
     environment: PROD
-    needs: [run_int_test_stage]
+    needs: [run_int_test_stage, prod-plan]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
