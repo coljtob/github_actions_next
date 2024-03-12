@@ -109,7 +109,7 @@ jobs:
   merge-main-to-qa:
     runs-on: ubuntu-latest
     environment: QA
-
+    needs: [qa-plan, stage-plan, prod-plan]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
