@@ -20,6 +20,8 @@ jobs:
         with:
           gh-cli-version: 2.32.0
       - name: Merge changes
+        # will change to novaprj
+        if: github.actor == 'coljtob'
         run: |
           SOURCE_BRANCH=main
           TARGET_BRANCH=QA
@@ -61,6 +63,8 @@ jobs:
         with:
           gh-cli-version: 2.32.0
       - name: Merge changes
+        # will change to novaprj
+        if: github.actor == 'coljtob'
         run: |
           SOURCE_BRANCH=main
           TARGET_BRANCH=STAGE
@@ -102,6 +106,8 @@ jobs:
         with:
           gh-cli-version: 2.32.0
       - name: Merge changes
+        # will change to novaprj
+        if: github.actor == 'coljtob'
         run: |
           SOURCE_BRANCH=main
           TARGET_BRANCH=PROD
