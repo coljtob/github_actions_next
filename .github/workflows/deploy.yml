@@ -35,6 +35,15 @@ jobs:
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
 
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
   run_int_test_qa:
     runs-on: ubuntu-latest
     environment: QA
