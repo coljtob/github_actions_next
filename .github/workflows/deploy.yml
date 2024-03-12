@@ -32,7 +32,7 @@ jobs:
           git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git config pull.rebase false  # merge
+          git config pull.rebase true  # merge
           git pull origin main --allow-unrelated-histories
           git merge -s ort -X theirs main --no-edit --allow-unrelated-histories --verbose
           git push origin $TARGET_BRANCH
