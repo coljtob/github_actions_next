@@ -34,7 +34,7 @@ jobs:
           git checkout $TARGET_BRANCH
           git config pull.rebase true
           git pull origin main --allow-unrelated-histories
-          git merge --no-ff main --no-edit
+          git merge -s ort main
           git push origin $TARGET_BRANCH
 
   run_int_test_qa:
@@ -78,7 +78,7 @@ jobs:
           git checkout $TARGET_BRANCH
           git config pull.rebase true
           git pull origin main --allow-unrelated-histories
-          git merge --no-ff main --no-edit
+          git merge -s ort main
           git push origin $TARGET_BRANCH
 
   run_int_test_stage:
@@ -122,7 +122,7 @@ jobs:
           git checkout $TARGET_BRANCH
           git config pull.rebase true
           git pull origin main --allow-unrelated-histories
-          git merge --no-ff main --no-edit
+          git merge -s ort main
           git push origin $TARGET_BRANCH
 
   run_int_test_prod:
