@@ -8,8 +8,7 @@ on:
 jobs:
 
   qa-plan:
-    needs: [check]
-    name: Terraform Plan
+    name: Terraform QA Plan
     runs-on: ubuntu-latest
 
     steps:
@@ -19,11 +18,11 @@ jobs:
           terraform_version: 1.4.6
 
       - name: Terraform Init
-        id: init
+        id: qa-init
         run: terraform init
 
       - name: Terraform Validate
-        id: validate
+        id: qa-validate
         run: |
           terraform validate
           if [ $? -ne 0 ];
@@ -35,14 +34,14 @@ jobs:
 
       - name: Terraform Plan
         continue-on-error: true
-        id: plan
+        id: qa-plan
         run: |
           terraform plan -input=false -no-color -out=tfplan
           terraform show -no-color tfplan > plan.txt    
 
   qa-apply:
     needs: [qa-plan]
-    name: Terraform Apply
+    name: Terraform QA Apply
     runs-on: ubuntu-latest
 
     steps:
@@ -52,11 +51,11 @@ jobs:
           terraform_version: 1.4.6
 
       - name: Terraform Init
-        id: init
+        id: qa-init
         run: terraform init
 
       - name: Terraform Validate
-        id: validate
+        id: qa-validate
         run: |
           terraform validate
           if [ $? -ne 0 ];
@@ -68,7 +67,7 @@ jobs:
 
       - name: Terraform Apply
         continue-on-error: true
-        id: apply
+        id: qa-apply
         run: terraform apply -no-color -auto-approve -input=false | tee apply.txt
 
   merge-main-to-qa:
