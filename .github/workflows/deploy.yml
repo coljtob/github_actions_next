@@ -9,6 +9,7 @@ jobs:
 
   merge-main-to-qa:
     runs-on: ubuntu-latest
+    environment: QA
 
     steps:
       - name: Checkout repository
@@ -37,6 +38,7 @@ jobs:
 
   run_int_test_qa:
     runs-on: ubuntu-latest
+    environment: QA
     needs: [merge-main-to-qa]
     steps:
       - name: Check URL status
@@ -51,6 +53,7 @@ jobs:
 
   merge-main-to-stage:
     runs-on: ubuntu-latest
+    environment: STAGE
     needs: [run_int_test_qa]
     steps:
       - name: Checkout repository
@@ -79,6 +82,7 @@ jobs:
 
   run_int_test_stage:
     runs-on: ubuntu-latest
+    environment: STAGE
     needs: [merge-main-to-stage]
     steps:
       - name: Check URL status
@@ -93,6 +97,7 @@ jobs:
 
   merge-stage-to-prod:
     runs-on: ubuntu-latest
+    environment: PROD
     needs: [run_int_test_stage]
     steps:
       - name: Checkout repository
@@ -121,6 +126,7 @@ jobs:
 
   run_int_test_prod:
     runs-on: ubuntu-latest
+    environment: PROD
     needs: [merge-stage-to-prod]
     steps:
       - name: Check URL status
