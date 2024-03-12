@@ -18,17 +18,14 @@ jobs:
       - name: Install GH CLI
         uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
         with:
-          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+          gh-cli-version: 2.32.0
       - name: Merge changes
         run: |
-          # Set the source and target branches
           SOURCE_BRANCH=main
-          TARGET_BRANCH=QA  # Change this to your target branch
-          
-          # Print branch information
+          TARGET_BRANCH=QA
+        
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
           
-          # Fetch latest changes and switch to the target branch
           git config --global user.email "ctobin@adobe.com"
           git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
@@ -62,17 +59,14 @@ jobs:
       - name: Install GH CLI
         uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
         with:
-          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+          gh-cli-version: 2.32.0
       - name: Merge changes
         run: |
-          # Set the source and target branches
           SOURCE_BRANCH=main
-          TARGET_BRANCH=STAGE  # Change this to your target branch
+          TARGET_BRANCH=STAGE
           
-          # Print branch information
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
           
-          # Fetch latest changes and switch to the target branch
           git config --global user.email "ctobin@adobe.com"
           git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
@@ -106,17 +100,14 @@ jobs:
       - name: Install GH CLI
         uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
         with:
-          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+          gh-cli-version: 2.32.0
       - name: Merge changes
         run: |
-          # Set the source and target branches
           SOURCE_BRANCH=main
-          TARGET_BRANCH=PROD  # Change this to your target branch
+          TARGET_BRANCH=PROD
           
-          # Print branch information
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
           
-          # Fetch latest changes and switch to the target branch
           git config --global user.email "ctobin@adobe.com"
           git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
