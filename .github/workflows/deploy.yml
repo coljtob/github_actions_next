@@ -43,7 +43,7 @@ jobs:
   stage-plan:
     name: Terraform Stage Plan
     runs-on: ubuntu-latest
-
+    needs: [run_int_test_qa]
     steps:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -76,7 +76,7 @@ jobs:
   prod-plan:
     name: Terraform Prod Plan
     runs-on: ubuntu-latest
-
+    needs: [run_int_test_stage]
     steps:
       - name: Setup Terraform
         uses: hashicorp/setup-terraform@v2
@@ -109,7 +109,7 @@ jobs:
   merge-main-to-qa:
     runs-on: ubuntu-latest
     environment: QA
-    needs: [qa-plan, stage-plan, prod-plan]
+    needs: [qa-plan]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
