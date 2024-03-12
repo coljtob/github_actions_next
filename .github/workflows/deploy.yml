@@ -7,6 +7,70 @@ on:
 
 jobs:
 
+  qa-plan:
+    needs: [check]
+    name: Terraform Plan
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: |
+          terraform validate
+          if [ $? -ne 0 ];
+          then
+            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Terraform Plan
+        continue-on-error: true
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan > plan.txt    
+
+  qa-apply:
+    needs: [qa-plan]
+    name: Terraform Apply
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.4.6
+
+      - name: Terraform Init
+        id: init
+        run: terraform init
+
+      - name: Terraform Validate
+        id: validate
+        run: |
+          terraform validate
+          if [ $? -ne 0 ];
+          then
+            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
+          else
+            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
+          fi
+
+      - name: Terraform Apply
+        continue-on-error: true
+        id: apply
+        run: terraform apply -no-color -auto-approve -input=false | tee apply.txt
+
   merge-main-to-qa:
     runs-on: ubuntu-latest
     environment: QA
@@ -35,32 +99,7 @@ jobs:
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
 
-      - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.4.6
-
-      - name: Terraform Init
-        id: init
-        run: terraform init
-
-      - name: Terraform Validate
-        id: validate
-        run: |
-          terraform validate
-          if [ $? -ne 0 ];
-          then
-            echo "## :bangbang: Validation failed.  Check the logs" >> $GITHUB_STEP_SUMMARY
-          else
-            echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
-          fi
-
-      - name: Terraform Plan
-        continue-on-error: true
-        id: plan
-        run: |
-          terraform plan -input=false -no-color -out=tfplan
-          terraform show -no-color tfplan > plan.txt    
+      
 
   run_int_test_qa:
     runs-on: ubuntu-latest
