@@ -132,7 +132,7 @@ jobs:
         if: github.actor == 'coljtob'
         run: |
           SOURCE_BRANCH=main
-          TARGET_BRANCH=qa
+          TARGET_BRANCH=QA
         
           echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
           
