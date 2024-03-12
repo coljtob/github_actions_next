@@ -32,6 +32,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
+          git pull origin $TARGET_BRANCH
           git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
@@ -74,6 +75,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
+          git pull origin $TARGET_BRANCH
           git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
@@ -116,6 +118,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
+          git pull origin $TARGET_BRANCH
           git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
