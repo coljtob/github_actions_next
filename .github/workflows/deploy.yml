@@ -143,7 +143,12 @@ jobs:
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
 
-      
+  wait-on-qa-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 5 seconds
+        run: sleep 5s
+
 
   run_int_test_qa:
     runs-on: ubuntu-latest
@@ -188,6 +193,12 @@ jobs:
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
 
+  wait-on-stage-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 5 seconds
+        run: sleep 5s
+
   run_int_test_stage:
     runs-on: ubuntu-latest
     environment: STAGE
@@ -230,6 +241,12 @@ jobs:
           git checkout $TARGET_BRANCH
           git merge -s ort -X theirs main --no-edit --verbose --allow-unrelated-histories 
           git push origin $TARGET_BRANCH
+
+  wait-on-prod-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Wait for 5 seconds
+        run: sleep 5s
 
   run_int_test_prod:
     runs-on: ubuntu-latest
