@@ -55,6 +55,13 @@ jobs:
             echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
           fi
 
+      - name: Terraform Plan
+        continue-on-error: true
+        id: plan
+        run: |
+          terraform plan -input=false -no-color -out=tfplan
+          terraform show -no-color tfplan > plan.txt    
+
   run_int_test_qa:
     runs-on: ubuntu-latest
     environment: QA
