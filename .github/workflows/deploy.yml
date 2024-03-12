@@ -1,4 +1,4 @@
-name: Merge Branch
+name: Deploy Federated
 
 on:
   push:
@@ -8,23 +8,23 @@ on:
 jobs:
 
   qa-plan:
-    name: Terraform QA Plan
+    name: terraform qa plan
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Terraform
+      - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.6
 
-      - name: Terraform Init
+      - name: terraform Init
         id: qa-init
         run: terraform init
 
-      - name: Terraform Validate
+      - name: terraform Validate
         id: qa-validate
         run: |
           terraform validate
@@ -35,7 +35,7 @@ jobs:
             echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
           fi
 
-      - name: Terraform Plan
+      - name: terraform plan
         continue-on-error: true
         id: qa-plan
         run: |
@@ -44,23 +44,23 @@ jobs:
           terraform show -no-color tfplan > qa-plan.txt    
 
   stage-plan:
-    name: Terraform Stage Plan
+    name: terraform stage plan
     runs-on: ubuntu-latest
     needs: [run_int_test_qa]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Terraform
+      - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.6
 
-      - name: Terraform Init
+      - name: terraform Init
         id: stage-init
         run: terraform init
 
-      - name: Terraform Validate
+      - name: terraform Validate
         id: stage-validate
         run: |
           terraform validate
@@ -71,7 +71,7 @@ jobs:
             echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
           fi
 
-      - name: Terraform Plan
+      - name: terraform plan
         continue-on-error: true
         id: stage-plan
         run: |
@@ -80,23 +80,23 @@ jobs:
           terraform show -no-color tfplan > stage-plan.txt    
 
   prod-plan:
-    name: Terraform Prod Plan
+    name: terraform prod plan
     runs-on: ubuntu-latest
     needs: [run_int_test_stage]
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Setup Terraform
+      - name: Setup terraform
         uses: hashicorp/setup-terraform@v2
         with:
           terraform_version: 1.4.6
 
-      - name: Terraform Init
+      - name: terraform Init
         id: prod-init
         run: terraform init
 
-      - name: Terraform Validate
+      - name: terraform Validate
         id: prod-validate
         run: |
           terraform validate
@@ -107,7 +107,7 @@ jobs:
             echo "## :white_check_mark: Success! The configuration is valid." >> $GITHUB_STEP_SUMMARY
           fi
 
-      - name: Terraform Plan
+      - name: terraform plan
         continue-on-error: true
         id: prod-plan
         run: |
@@ -117,7 +117,7 @@ jobs:
 
   merge-main-to-qa:
     runs-on: ubuntu-latest
-    environment: QA
+    environment: qa
     needs: [qa-plan]
     steps:
       - name: Checkout repository
@@ -153,7 +153,7 @@ jobs:
 
   run_int_test_qa:
     runs-on: ubuntu-latest
-    environment: QA
+    environment: qa
     needs: [wait-on-qa-deploy]
     steps:
       - name: Check URL status
