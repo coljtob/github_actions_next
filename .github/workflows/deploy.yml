@@ -32,18 +32,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          # git config pull.rebase true
-          
-          # Pull changes from the main branch
-          git pull origin $SOURCE_BRANCH
-          
-          # Add all changes to the staging area
-          git add .
-          
-          # Commit the changes with a descriptive message
-          git commit -m "Merge changes from main into $TARGET_BRANCH"
-          
-          # Push changes to the remote repository
+          git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
   run_int_test_qa:
@@ -85,18 +74,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git config pull.rebase true
-          
-          # Pull changes from the main branch
-          git pull origin $SOURCE_BRANCH
-          
-          # Add all changes to the staging area
-          git add .
-          
-          # Commit the changes with a descriptive message
-          git commit -m "Merge changes from main into $TARGET_BRANCH"
-          
-          # Push changes to the remote repository
+          git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
   run_int_test_stage:
@@ -138,18 +116,7 @@ jobs:
           git config --global user.name "Collin Tobin"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
-          git config pull.rebase true
-          
-          # Pull changes from the main branch
-          git pull origin $SOURCE_BRANCH
-          
-          # Add all changes to the staging area
-          git add .
-          
-          # Commit the changes with a descriptive message
-          git commit -m "Merge changes from main into $TARGET_BRANCH"
-          
-          # Push changes to the remote repository
+          git merge --no-ff main --no-edit
           git push origin $TARGET_BRANCH
 
   run_int_test_prod:
