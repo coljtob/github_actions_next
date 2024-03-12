@@ -71,7 +71,7 @@ jobs:
           
           # Fetch latest changes and switch to the target branch
           git config --global user.email "ctobin@adobe.com"
-          git config --global user.name "Collin Tobin"
+          git config --global user.name "coljtob"
           git fetch origin $TARGET_BRANCH
           git checkout $TARGET_BRANCH
           git merge -s ort main --no-edit --allow-unrelated-histories
