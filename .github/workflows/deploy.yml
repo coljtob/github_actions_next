@@ -154,7 +154,7 @@ jobs:
   run_int_test_qa:
     runs-on: ubuntu-latest
     environment: QA
-    needs: [merge-main-to-qa]
+    needs: [wait-on-qa-deploy]
     steps:
       - name: Check URL status
         run: |
@@ -196,7 +196,7 @@ jobs:
 
   wait-on-stage-deploy:
     runs-on: ubuntu-latest
-    needs: [merge-qa-to-stage]
+    needs: [merge-main-to-stage]
     steps:
       - name: Wait for 5 seconds
         run: sleep 5s
@@ -204,7 +204,7 @@ jobs:
   run_int_test_stage:
     runs-on: ubuntu-latest
     environment: STAGE
-    needs: [merge-main-to-stage]
+    needs: [wait-on-stage-deploy]
     steps:
       - name: Check URL status
         run: |
@@ -254,7 +254,7 @@ jobs:
   run_int_test_prod:
     runs-on: ubuntu-latest
     environment: PROD
-    needs: [merge-stage-to-prod]
+    needs: [wait-on-prod-deploy]
     steps:
       - name: Check URL status
         run: |
