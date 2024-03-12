@@ -1,0 +1,168 @@
+name: Merge Branch
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+
+  merge-main-to-qa:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+        with:
+          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+      - name: Merge changes
+        run: |
+          # Set the source and target branches
+          SOURCE_BRANCH=main
+          TARGET_BRANCH=QA  # Change this to your target branch
+          
+          # Print branch information
+          echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
+          
+          # Fetch latest changes and switch to the target branch
+          git config --global user.email "ctobin@adobe.com"
+          git config --global user.name "Collin Tobin"
+          git fetch origin $TARGET_BRANCH
+          git checkout $TARGET_BRANCH
+          # git config pull.rebase true
+          
+          # Pull changes from the main branch
+          git pull origin $SOURCE_BRANCH
+          
+          # Add all changes to the staging area
+          git add .
+          
+          # Commit the changes with a descriptive message
+          git commit -m "Merge changes from main into $TARGET_BRANCH"
+          
+          # Push changes to the remote repository
+          git push origin $TARGET_BRANCH
+
+  run_int_test_qa:
+    runs-on: ubuntu-latest
+    needs: [merge-main-to-qa]
+    steps:
+      - name: Check URL status
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://example.com)
+          if [ "$response" == "200" ]; then
+            echo "URL is reachable with status code 200"
+          else
+            echo "URL is unreachable or returned a status code other than 200"
+            exit 1
+          fi
+
+  merge-main-to-stage:
+    runs-on: ubuntu-latest
+    needs: [run_int_test_qa]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+        with:
+          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+      - name: Merge changes
+        run: |
+          # Set the source and target branches
+          SOURCE_BRANCH=main
+          TARGET_BRANCH=STAGE  # Change this to your target branch
+          
+          # Print branch information
+          echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
+          
+          # Fetch latest changes and switch to the target branch
+          git config --global user.email "ctobin@adobe.com"
+          git config --global user.name "Collin Tobin"
+          git fetch origin $TARGET_BRANCH
+          git checkout $TARGET_BRANCH
+          git config pull.rebase true
+          
+          # Pull changes from the main branch
+          git pull origin $SOURCE_BRANCH
+          
+          # Add all changes to the staging area
+          git add .
+          
+          # Commit the changes with a descriptive message
+          git commit -m "Merge changes from main into $TARGET_BRANCH"
+          
+          # Push changes to the remote repository
+          git push origin $TARGET_BRANCH
+
+  run_int_test_stage:
+    runs-on: ubuntu-latest
+    needs: [merge-main-to-stage]
+    steps:
+      - name: Check URL status
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://example.com)
+          if [ "$response" == "200" ]; then
+            echo "URL is reachable with status code 200"
+          else
+            echo "URL is unreachable or returned a status code other than 200"
+            exit 1
+          fi
+
+  merge-stage-to-prod:
+    runs-on: ubuntu-latest
+    needs: [run_int_test_stage]
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Install GH CLI
+        uses: dev-hanz-ops/install-gh-cli-action@v0.1.0
+        with:
+          gh-cli-version: 2.32.0 # optional, see action.yml for current default
+      - name: Merge changes
+        run: |
+          # Set the source and target branches
+          SOURCE_BRANCH=main
+          TARGET_BRANCH=PROD  # Change this to your target branch
+          
+          # Print branch information
+          echo "Merging changes from $SOURCE_BRANCH to $TARGET_BRANCH"
+          
+          # Fetch latest changes and switch to the target branch
+          git config --global user.email "ctobin@adobe.com"
+          git config --global user.name "Collin Tobin"
+          git fetch origin $TARGET_BRANCH
+          git checkout $TARGET_BRANCH
+          git config pull.rebase true
+          
+          # Pull changes from the main branch
+          git pull origin $SOURCE_BRANCH
+          
+          # Add all changes to the staging area
+          git add .
+          
+          # Commit the changes with a descriptive message
+          git commit -m "Merge changes from main into $TARGET_BRANCH"
+          
+          # Push changes to the remote repository
+          git push origin $TARGET_BRANCH
+
+  run_int_test_prod:
+    runs-on: ubuntu-latest
+    needs: [merge-stage-to-prod]
+    steps:
+      - name: Check URL status
+        run: |
+          response=$(curl -s -o /dev/null -w "%{http_code}" https://example.com)
+          if [ "$response" == "200" ]; then
+            echo "URL is reachable with status code 200"
+          else
+            echo "URL is unreachable or returned a status code other than 200"
+            exit 1
+          fi
+          
